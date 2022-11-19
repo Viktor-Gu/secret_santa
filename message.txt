@@ -1,0 +1,16 @@
+Pssst, ${PERSON_NAME}!
+
+It's this time of year again. The Secret Santas are getting ready to go.
+The raffle is as usual automated and anonymized, not even I know who is chosen for whom.
+I hope everything works out fine but if you think an exception case was overlooked please contact me.
+I wish you much fun.
+And if you want you can send a hint or two to all participants of secret santa.
+
+
+Your are the Secret Santa of:
+
+${WICHTEL_NAME}
+
+
+
+All the Best.
