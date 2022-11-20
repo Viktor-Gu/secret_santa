@@ -1,4 +1,5 @@
-import smtplib
+import smtplib, ssl
+from email.message import EmailMessage
 import random
 from datetime import datetime
 
@@ -134,15 +135,33 @@ def check_combs(wichtel_combinations):
     return True
 
 
+def send_mail(message, receiver_email, subject):
+
+    port = 465  # For SSL
+    smtp_server = "smtp.gmail.com"
+    password = "16-digit-app-password"
+
+    msg = EmailMessage()
+    msg.set_content(message)
+    msg['Subject'] = subject
+    msg['From'] = MY_ADDRESS
+    msg['To'] = receiver_email
+
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(MY_ADDRESS, PASSWORD)
+        server.send_message(msg, from_addr=MY_ADDRESS, to_addrs=receiver_email)
+
+
 def wichteln():
+    # get year
+    today = datetime.today()
+    year = today.year
+
+    # get params
     names, emails = get_contacts('mycontacts.txt')  # read contacts
     message_template = read_template('message.txt')
     exceptions = get_exceptions('exceptions.txt')
-
-    # set up the SMTP server
-    s = smtplib.SMTP(host='smtp.gmail.com', port=587)
-    s.starttls()
-    s.login(MY_ADDRESS, PASSWORD)
 
     # choose wichtel
     wichtel_combinations = dict()
@@ -154,13 +173,9 @@ def wichteln():
     write_combinations(wichtel_combinations)
 
     if wichtel_combinations is not None:
-        # get year
-        today = datetime.today()
-        year = today.year
 
         # For each contact, send the email:
         for name, email in zip(names, emails):
-            msg = MIMEMultipart()  # create a message
 
             # add in the actual person name to the message template
             message = message_template.substitute(PERSON_NAME=name.title(),
@@ -169,20 +184,7 @@ def wichteln():
             # Prints out the message body for our sake
             # print(message)
 
-            # setup the parameters of the message
-            msg['From'] = MY_ADDRESS
-            msg['To'] = email
-            msg['Subject'] = "Weihnachts-Wichteln " + str(year)
-
-            # add in the message body
-            msg.attach(MIMEText(message, 'plain'))
-
-            # send the message via the server set up earlier.
-            s.send_message(msg)
-            del msg
-
-    # Terminate the SMTP session and close the connection
-    s.quit()
+            send_mail(message, email, "Weihnachts-Wichteln " + str(year))
 
 
 if __name__ == '__main__':
