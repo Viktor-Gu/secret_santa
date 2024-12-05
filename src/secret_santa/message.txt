@@ -7,7 +7,7 @@ I wish you much fun.
 And if you want you can send a hint or two to all participants of secret santa.
 
 
-Your are the Secret Santa of:
+You are the Secret Santa of:
 
 ${WICHTEL_NAME}
 

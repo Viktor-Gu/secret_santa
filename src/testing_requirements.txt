@@ -1,0 +1,6 @@
+mypy
+pylint
+black
+coverage
+pytest
+pytest_mock

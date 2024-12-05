@@ -131,9 +131,5 @@ dmypy.json
 # IDE
 .idea/
 
-# History folders
-test_txts/
-wichteln_*/
-
-# Dummy data
-*.txt
+# Data folders
+data/
