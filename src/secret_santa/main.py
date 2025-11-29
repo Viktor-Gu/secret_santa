@@ -86,7 +86,7 @@ def choose_wichtel(names, exceptions):
     if any(x == [] for key, x in player_dict.items()):
         error_names = [k for k, v in player_dict.items() if v == []]
         for name in error_names:
-            print("Error: not possible solution for {}. Reduce Exception list.".format(name))
+            print(f"Error: not possible solution for {name}. Reduce Exception list.")
         return None
 
     for i in range(len(names)):
@@ -176,6 +176,7 @@ def wichteln():
 
         # For each contact, send the email:
         for name, email in zip(names, emails):
+            print(f'Sending email to {name} at {email}')
 
             # add in the actual person name to the message template
             message = message_template.substitute(PERSON_NAME=name.title(),
